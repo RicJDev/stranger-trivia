@@ -4,6 +4,10 @@
 
 ```
 stranger-trivia/
+├── src-tauri/            # Configuración de Tauri
+│   ├── tauri.conf.json  # Config principal
+│   ├── Cargo.toml      # Dependencias Rust
+│   └── src/            # Código Rust (main.rs, lib.rs)
 ├── src/
 │   ├── main.js              # Entry point
 │   ├── reset.css           # Reset CSS
@@ -105,3 +109,41 @@ Responsive: `@media (max-width: 600px)`
 ### Bug 3:舌尖 titube en móvil
 
 **Solución**: Media query con fuentes reducidas.
+
+## Tauri
+
+### Configuración Principal (tauri.conf.json)
+
+```json
+{
+  "productName": "stranger-trivia",
+  "version": "0.1.0",
+  "identifier": "com.strangertrivia.app",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:5173/",
+    "beforeDevCommand": "pnpm dev",
+    "beforeBuildCommand": "pnpm build"
+  }
+}
+```
+
+- `frontendDist`: Directorio del build de Vite
+- `beforeDevCommand`: Comando para iniciar el dev server
+- `beforeBuildCommand`: Comando para build de producción
+
+### GitHub Actions (release.yml)
+
+Workflow para compilar automaticamente para Linux, Windows y Android:
+
+- Se ejecuta al hacer push de un tag `v*`
+- Compila para las 3 plataformas en paralelo
+- Sube los artefactos a la release de GitHub
+
+### Cargo.toml
+
+Dependencias principales:
+
+- `tauri`: Framework principal (v2.10.3)
+- `tauri-plugin-log`: Sistema de logging
+- `serde`/`serde_json`: Serialización

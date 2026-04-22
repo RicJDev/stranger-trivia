@@ -39,3 +39,33 @@ src/
 - Vanilla JavaScript (ES Modules)
 - Vite
 - CSS (sin framework)
+- Tauri (para ejecutables nativos)
+
+## Ejecutables (Tauri)
+
+El proyecto incluye Tauri para generar ejecutables nativos para diferentes plataformas:
+
+```bash
+npm run tauri dev      # Ejecutar en modo desarrollo
+npm run tauri build    # Compilar para producción
+```
+
+### Plataformas soportadas
+
+- **Linux**: AppImage (.AppImage)
+- **Windows**: Ejecutable (.exe)
+- **Android**: APK (.apk)
+
+### GitHub Releases
+
+Las releases se generan automáticamente mediante GitHub Actions. Para crear una nueva release:
+
+1. Crea un tag de versión:
+   ```bash
+   git tag v1.0.0
+   git push origin v1.0.0
+   ```
+
+2. La action compilara automaticamente para las 3 plataformas y generara los artefactos.
+
+3. Se subiran automaticamente a la release de GitHub.
