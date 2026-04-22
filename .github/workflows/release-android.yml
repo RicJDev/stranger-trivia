@@ -49,7 +49,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: '-- --apk'
           includeAndroid: true
           tagName: ${{ github.ref_name }}
           releaseName: 'Stranger Trivia ${{ github.ref_name }}'
