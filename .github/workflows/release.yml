@@ -72,7 +72,9 @@ jobs:
           api-level: 34
 
       - name: Install frontend dependencies
-        run: pnpm install
+        run: |
+          pnpm install
+          pnpm add -D esbuild
 
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
