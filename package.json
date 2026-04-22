@@ -7,15 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "tauri": "tauri",
-    "tauri:dev": "tauri dev",
-    "tauri:build": "tauri build",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2.10.1",
     "prettier": "3.8.3",
-    "vite": "^8.0.4"
+    "vite": "8.0.4"
   }
 }
