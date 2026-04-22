@@ -15,37 +15,69 @@
     </style>
   </head>
   <body>
+    <audio id="bg-music" src="./src/assets/main-theme.mp3" loop></audio>
+
     <main class="container">
       <div class="screen start">
-        <header class="start--header">
-          <div class="start--header__title">
-            <p>¿Qué tantas</p>
-            <h1><span>V</span>aina<span>s</span></h1>
-            <h2>Raras</h2>
-            <p>conoces?</p>
-          </div>
+        <div class="start--content">
+          <h1 class="start--title">
+            <span class="start--title-line">¿Qué tantas</span>
+            <span class="start--title-main">
+              <span class="start--title-v">V</span>ainas
+            </span>
+            <span class="start--title-line">Raras</span>
+            <span class="start--title-line">conoces?</span>
+          </h1>
 
-          <button>Empezar</button>
-        </header>
+          <p class="start--message">
+            Bienvenidos a Hawkins. Las reglas son simples: Los amigos no mienten,
+            las brújulas no funcionan y si escuchas un reloj, corre por tu vida.
+          </p>
 
-        <p class="start--message box">
-          Bienvenidos a Hawkins. <br />
-          Las reglas son simples: <br />
-          Los amigos no mienten, las brújulas no funcionan y si escuchas un
-          reloj, corre por tu vida. Que empiece la partida.
-        </p>
+          <button class="start--btn">Empezar</button>
+        </div>
       </div>
 
       <div class="screen quiz hidden">
-        <h1>Aqui ira el quiz</h1>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum
-          officiis voluptate non, possimus iusto ab explicabo rem omnis minus
-          provident ipsam! Ullam tempore totam dolor consectetur natus, iusto
-          excepturi aut?
-        </p>
+        <header class="quiz--header">
+          <span class="quiz--level">Nivel: <span id="level-name">Fácil</span></span>
+          <span class="quiz--score">Puntuación: <span id="score">0</span></span>
+        </header>
+
+        <div class="quiz--progress">
+          <p id="question-number">Pregunta 1/15</p>
+          <div class="quiz--progress-bar">
+            <div class="quiz--progress-fill" id="progress-fill"></div>
+          </div>
+        </div>
+
+        <article class="quiz--question" id="question-card">
+          <p class="quiz--question-text" id="question-text"></p>
+          <div class="quiz--options" id="options"></div>
+        </article>
+
+        <div class="quiz--feedback hidden" id="feedback">
+          <p id="feedback-text"></p>
+          <button id="next-btn">Siguiente</button>
+        </div>
+
+        <button class="quiz--back hidden" id="back-btn">Volver al inicio</button>
       </div>
-      <div class="screen hidden"></div>
+
+      <div class="modal-overlay hidden" id="level-modal">
+        <div class="modal">
+          <h2 class="modal--title" id="modal-title">Nuevo Nivel</h2>
+          <p class="modal--message" id="modal-message"></p>
+          <button class="modal--btn" id="modal-btn">Continuar</button>
+        </div>
+      </div>
+
+      <div class="screen results hidden" id="results-screen">
+        <h2>¡Juego Terminado!</h2>
+        <p class="results--score">Puntuación final: <span id="final-score">0</span></p>
+        <p class="results--message" id="results-message"></p>
+        <button id="restart-btn">Jugar de nuevo</button>
+      </div>
     </main>
 
     <script type="module" src="./src/main.js"></script>

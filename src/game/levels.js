@@ -1,5 +1,3 @@
-// "Bienvenidos a Hawkins. Las reglas son simples: Los amigos no mienten, las brújulas no funcionan y si escuchas un reloj, corre por tu vida. ¡Que empiece la partida!",
-
 export const levels = {
   easy: {
     message: "Estás entrando a un nivel súper fácil",
