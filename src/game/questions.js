@@ -1,7 +1,10 @@
 import { levels } from './levels.js'
 
 export function getAllQuestions() {
-  return levels.easy.questions.concat(levels.medium.questions, levels.hard.questions)
+  return levels.easy.questions.concat(
+    levels.medium.questions,
+    levels.hard.questions,
+  )
 }
 
 export function getCurrentQuestion(index) {
