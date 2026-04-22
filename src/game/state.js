@@ -1,5 +1,5 @@
 const LEVEL_ORDER = ['easy', 'medium', 'hard']
-const LEVEL_NAMES = { easy: 'Facil', medium: 'Medio', hard: 'Dificil' }
+const LEVEL_NAMES = { easy: 'Fácil', medium: 'Medio', hard: 'Difícil' }
 
 let state = {
   currentLevelIndex: 0,

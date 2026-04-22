@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.png" />
     <title>Stranger-Trivia</title>
 
     <style>
@@ -16,23 +17,24 @@
   </head>
   <body>
     <audio id="bg-music" src="./src/assets/main-theme.mp3" loop></audio>
+    <audio id="sounds-correct" src="./src/assets/success_bell.mp3"></audio>
+    <audio id="sounds-wrong" src="./src/assets/fail.mp3"></audio>
+    <audio id="sounds-finish" src="./src/assets/tada.mp3"></audio>
 
     <main class="container">
       <div class="screen start">
         <div class="start--content">
-          <h1 class="start--title">
-            <span class="start--title-line">¿Qué tantas</span>
-            <span class="start--title-main">
-              <span class="start--title-v">V</span>ainas
-            </span>
-            <span class="start--title-line">Raras</span>
-            <span class="start--title-line">conoces?</span>
-          </h1>
+          <div class="start--title">
+            <p class="title-line">¿Qué tanto de</p>
+            <h1 class="title-main"><span>S</span>trange<span>r</span></h1>
+            <h2 class="title-raras">Things</h2>
+            <p class="title-line">sabes?</p>
+          </div>
 
           <p class="start--message">
-            Bienvenidos a Hawkins. Las reglas son simples: Los amigos no
-            mienten, las brújulas no funcionan y si escuchas un reloj, corre por
-            tu vida.
+            Bienvenidos a Hawkins.<br />
+            Los amigos no mienten y<br />
+            Si escuchas un reloj, corre.
           </p>
 
           <button class="start--btn">Empezar</button>

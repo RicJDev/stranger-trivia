@@ -86,22 +86,34 @@
   flex-direction: column;
   gap: 0;
   margin: 0;
+  width: fit-content;
 }
 
-.start--title-line {
-  font-size: 2rem;
+.title-line {
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 4px;
+  font-size: 2rem;
   color: var(--text-color);
 }
 
-.start--title-main {
-  font-size: 4.5rem;
+.title-line:first-child {
+  text-align: left;
+  transform: translateX(-1rem);
+}
+
+.title-line:last-child {
+  text-align: right;
+  transform: translateY(-3.5rem) translateX(-2rem);
+}
+
+.title-main {
+  font-size: 4rem;
   font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
   text-transform: uppercase;
-  line-height: 1.1;
   color: var(--st-red-bright);
+  margin: 0;
+  padding: 0;
   text-shadow:
     0 0 10px var(--st-red-bright),
     0 0 30px var(--st-red-dark),
@@ -109,12 +121,31 @@
   animation: flicker 3s infinite;
 }
 
-.start--title-v {
-  font-size: 5rem;
+.title-main span {
+  font-size: 6rem;
+  vertical-align: top;
+  line-height: 1;
+  display: inline-block;
   text-shadow:
-    0 0 20px var(--st-red-light),
-    0 0 40px var(--st-red-dark),
-    3px 3px 0 var(--st-black);
+    0 0 10px var(--st-red-bright),
+    0 0 30px var(--st-red-dark),
+    2px 2px 0 var(--st-black);
+  animation: flicker 3s infinite;
+}
+
+.title-raras {
+  font-size: 4.2rem;
+  text-transform: uppercase;
+  color: var(--st-red-bright);
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+  transform: translateY(-2.5rem);
+  text-shadow:
+    0 0 10px var(--st-red-bright),
+    0 0 30px var(--st-red-dark),
+    2px 2px 0 var(--st-black);
+  animation: flicker 3s infinite;
 }
 
 @keyframes flicker {
@@ -139,18 +170,15 @@
   }
 }
 
-.start--title-v {
-  font-size: 5rem;
-}
-
 .start--message {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
-  line-height: 1.6;
-  max-width: 35ch;
+  line-height: 1.8;
   color: var(--text-color);
+  text-align: center;
+  padding: 20px 30px;
 }
 
 .start--btn {
@@ -186,7 +214,8 @@
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  gap: 20px;
+  /* gap: 20px; */
+  gap: 12px;
   padding: 24px 0;
   font-family: 'Benguiat', serif;
 }
@@ -194,10 +223,61 @@
 .quiz--header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 1.2rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: var(--st-red-bright);
+}
+
+.quiz--level {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quiz--level::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 10px #4ade80;
+  animation: pulse 2s infinite;
+}
+
+.quiz--level[data-level='Fácil']::before {
+  background: #4ade80;
+  box-shadow: 0 0 10px #4ade80;
+}
+
+.quiz--level[data-level='Medio']::before {
+  background: #fbbf24;
+  box-shadow: 0 0 10px #fbbf24;
+}
+
+.quiz--level[data-level='Difícil']::before {
+  background: var(--st-red-bright);
+  box-shadow: 0 0 10px var(--st-red-bright);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+#level-name {
+  color: var(--text-color);
+  text-shadow: 0 0 10px var(--st-red-dark);
+}
+
+.quiz--score {
+  color: var(--text-color);
   text-shadow: 0 0 10px var(--st-red-dark);
 }
 
@@ -318,6 +398,20 @@
   font-size: 1.1rem;
   text-transform: uppercase;
   letter-spacing: 1px;
+  border-top: 1px solid var(--st-red-dark);
+  margin-top: 10px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .quiz--feedback button {
@@ -485,4 +579,42 @@
   background: var(--st-red-bright);
   color: var(--st-black);
   box-shadow: 0 0 20px var(--st-red-bright);
+}
+
+@media (max-width: 600px) {
+  .title-line {
+    font-size: 1.3rem;
+  }
+
+  .title-line:first-child {
+    transform: translateX(-0.5rem);
+  }
+
+  .title-line:last-child {
+    transform: translateY(-2.5rem) translateX(-1rem);
+  }
+
+  .title-main {
+    font-size: 2.5rem;
+  }
+
+  .title-main span {
+    font-size: 3.5rem;
+  }
+
+  .title-raras {
+    font-size: 2.8rem;
+    transform: translateY(-1.5rem);
+  }
+
+  .quiz--header {
+    flex-direction: column;
+    gap: 8px;
+    font-size: 1rem;
+  }
+
+  .quiz--level::before {
+    width: 8px;
+    height: 8px;
+  }
 }

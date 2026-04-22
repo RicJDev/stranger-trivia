@@ -34,7 +34,10 @@ import {
 } from './ui/header.js'
 
 const $bgMusic = document.getElementById('bg-music')
-$bgMusic.volume = 0.3
+$bgMusic.volume = 0.2
+
+const $soundFinish = document.getElementById('sounds-finish')
+$soundFinish.volume = 0.5
 
 function fadeOutMusic(duration = 1000) {
   const startVolume = $bgMusic.volume
@@ -56,11 +59,15 @@ function fadeOutMusic(duration = 1000) {
   requestAnimationFrame(fade)
 }
 
-document.addEventListener('click', () => {
-  if ($bgMusic.paused) {
-    $bgMusic.play()
-  }
-}, { once: true })
+document.addEventListener(
+  'click',
+  () => {
+    if ($bgMusic.paused) {
+      $bgMusic.play()
+    }
+  },
+  { once: true },
+)
 
 const $startButton = document.querySelector('.start--btn')
 const $nextBtn = document.getElementById('next-btn')
@@ -95,34 +102,35 @@ function nextQuestion() {
   setState(newState)
 
   const total = getTotalQuestions()
-  if (state.currentQuestionIndex >= total) {
+  if (newState.currentQuestionIndex >= total) {
     showResults()
     return
   }
 
   const easyCount = getQuestionCountAtLevel(1)
-  const mediumCount = getQuestionCountAtLevel(2)
+  const mediumQuestions = levels.medium.questions.length
 
-  if (state.currentQuestionIndex === easyCount) {
+  if (newState.currentQuestionIndex === easyCount) {
     nextLevel()
     updateLevelName(getLevelName())
     showModal('Nivel Medio', levels.medium.message, showCurrentQuestion)
-  } else if (state.currentQuestionIndex === easyCount + mediumCount) {
+  } else if (newState.currentQuestionIndex === easyCount + mediumQuestions) {
     nextLevel()
     updateLevelName(getLevelName())
-    showModal('Nivel Dificil', levels.hard.message, showCurrentQuestion)
+    showModal('Nivel Difícil', levels.hard.message, showCurrentQuestion)
   } else {
     showCurrentQuestion()
   }
 }
 
 function showResults() {
-  $bgMusic.pause()
   showResultsScreen()
   const state = getState()
   const total = getTotalQuestions()
   const percentage = updateResults(state.score, total)
   setResultsMessage(percentage)
+  $soundFinish.currentTime = 0
+  $soundFinish.play()
 }
 
 function startGame() {
@@ -130,7 +138,7 @@ function startGame() {
   updateLevelName(getLevelName())
   updateScore(0)
 
-  fadeOutMusic()
+  $bgMusic.play()
   showQuizScreen()
   showCurrentQuestion()
 }

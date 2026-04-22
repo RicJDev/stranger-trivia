@@ -3,6 +3,7 @@ const $score = document.getElementById('score')
 
 export function updateLevelName(name) {
   $levelName.textContent = name
+  $levelName.parentElement.dataset.level = name
 }
 
 export function updateScore(score) {
