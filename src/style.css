@@ -102,7 +102,8 @@
   text-transform: uppercase;
   line-height: 1.1;
   color: var(--st-red-bright);
-  text-shadow: 0 0 10px var(--st-red-bright),
+  text-shadow:
+    0 0 10px var(--st-red-bright),
     0 0 30px var(--st-red-dark),
     2px 2px 0 var(--st-black);
   animation: flicker 3s infinite;
@@ -110,18 +111,32 @@
 
 .start--title-v {
   font-size: 5rem;
-  text-shadow: 0 0 20px var(--st-red-light),
+  text-shadow:
+    0 0 20px var(--st-red-light),
     0 0 40px var(--st-red-dark),
     3px 3px 0 var(--st-black);
 }
 
 @keyframes flicker {
-  0%, 100% { opacity: 1; }
-  92% { opacity: 1; }
-  93% { opacity: 0.8; }
-  94% { opacity: 1; }
-  96% { opacity: 0.9; }
-  97% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 0.8;
+  }
+  94% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 0.9;
+  }
+  97% {
+    opacity: 1;
+  }
 }
 
 .start--title-v {
@@ -148,7 +163,8 @@
   letter-spacing: 3px;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 0 10px var(--st-red-dark),
+  box-shadow:
+    0 0 10px var(--st-red-dark),
     inset 0 0 10px rgba(239, 11, 11, 0.1);
   transition: all 0.3s ease-out;
 }
@@ -249,7 +265,8 @@
 
 .quiz--option:hover:not(:disabled) {
   border-color: var(--st-red-bright);
-  box-shadow: 0 0 15px var(--st-red-dark),
+  box-shadow:
+    0 0 15px var(--st-red-dark),
     inset 0 0 10px rgba(239, 11, 11, 0.1);
   transform: translateX(8px);
 }
@@ -273,11 +290,22 @@
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-8px); }
-  40% { transform: translateX(8px); }
-  60% { transform: translateX(-8px); }
-  80% { transform: translateX(8px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  60% {
+    transform: translateX(-8px);
+  }
+  80% {
+    transform: translateX(8px);
+  }
 }
 
 .quiz--feedback {
@@ -405,7 +433,8 @@
   padding: 32px 40px;
   max-width: 45ch;
   text-align: center;
-  box-shadow: 0 0 40px var(--st-red-dark),
+  box-shadow:
+    0 0 40px var(--st-red-dark),
     inset 0 0 20px rgba(239, 11, 11, 0.1);
   animation: modalIn 0.3s ease-out;
 }
@@ -457,5 +486,3 @@
   color: var(--st-black);
   box-shadow: 0 0 20px var(--st-red-bright);
 }
-
-
