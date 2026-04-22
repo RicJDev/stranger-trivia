@@ -1,0 +1,81 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'ubuntu-22.04'
+            args: '--target x86_64-unknown-linux-gnu'
+          - platform: 'windows-latest'
+            args: '--target x86_64-pc-windows-msvc'
+          - platform: 'ubuntu-22.04'
+            args: '--target aarch64-linux-android'
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install frontend dependencies
+        run: pnpm install
+
+      - name: Build frontend
+        run: pnpm build
+
+      - name: Install Rust Stable
+        uses: dtolnay/rust-action@stable
+        with:
+          targets: x86_64-unknown-linux-gnu, aarch64-linux-android
+
+      - name: Install Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Build Tauri app
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: ${{ matrix.args }}
+          tagName: v__VERSION__
+          releaseName: 'Stranger Trivia v__VERSION__'
+          releaseBody: 'See the assets to download this version and install.'
+          draft: false
+          prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') }}
+
+      - name: Upload Linux artifact
+        if: matrix.platform == 'ubuntu-22.04' && contains(matrix.args, 'x86_64-unknown-linux-gnu')
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-release
+          path: src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/**/*.AppImage
+
+      - name: Upload Windows artifact
+        if: matrix.platform == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-release
+          path: src-tauri/target/x86_64-pc-windows-msvc/release/bundle/**/*.exe
+
+      - name: Upload Android artifact
+        if: matrix.platform == 'ubuntu-22.04' && contains(matrix.args, 'aarch64-linux-android')
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-release
+          path: src-tauri/target/aarch64-linux-android/release/bundle/android/**/*.apk
