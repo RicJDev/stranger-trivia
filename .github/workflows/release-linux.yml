@@ -1,37 +1,20 @@
-name: Release
+name: Build Linux
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
   release:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform: 'ubuntu-22.04'
-            args: '--target x86_64-unknown-linux-gnu'
-            target: 'x86_64-unknown-linux-gnu'
-          - platform: 'windows-latest'
-            args: '--target x86_64-pc-windows-msvc'
-            target: 'x86_64-pc-windows-msvc'
-          - platform: 'ubuntu-22.04'
-            target: 'android'
-            is_android: true
-
-    runs-on: ${{ matrix.platform }}
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install system dependencies (Linux only)
-        if: matrix.platform == 'ubuntu-22.04'
+      - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf libsoup-3.0 libjavascriptcoregtk-4.1-dev libwebkit2gtk-4.1-dev
@@ -49,24 +32,11 @@ jobs:
 
       - name: Install Rust Stable
         uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.is_android && 'aarch64-linux-android' || matrix.target }}
 
       - name: Rust Cache
         uses: swatinem/rust-cache@v2
         with:
           workspaces: './src-tauri -> target'
-
-      - name: Setup Java
-        if: matrix.is_android
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-
-      - name: Setup Android SDK
-        if: matrix.is_android
-        uses: android-actions/setup-android@v3
 
       - name: Install frontend dependencies
         run: |
@@ -78,8 +48,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: ${{ matrix.is_android && '-- --apk' || matrix.args }}
-          includeAndroid: ${{ matrix.is_android }}
+          args: '--target x86_64-unknown-linux-gnu'
           tagName: ${{ github.ref_name }}
           releaseName: 'Stranger Trivia ${{ github.ref_name }}'
           releaseBody: 'Juego de trivia con temática de Stranger Things'
