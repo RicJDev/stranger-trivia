@@ -44,6 +44,9 @@ jobs:
           pnpm install
           pnpm add -D esbuild
 
+      - name: Initialize Android project
+        run: pnpm tauri android init
+
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
         env:
