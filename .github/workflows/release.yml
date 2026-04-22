@@ -36,7 +36,9 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install frontend dependencies
-        run: pnpm install
+        run: |
+          pnpm install
+          pnpm add -D esbuild
 
       - name: Build frontend
         run: pnpm build
