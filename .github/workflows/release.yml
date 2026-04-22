@@ -73,6 +73,15 @@ jobs:
           api-level: 34
           ndk-version: r26
 
+      - name: Configure Android NDK linker
+        if: matrix.is_android
+        run: |
+          echo "CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER=$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang" >> $GITHUB_ENV
+
+      - name: Clean target directory
+        if: matrix.is_android
+        run: rm -rf src-tauri/target/aarch64-linux-android
+
       - name: Install frontend dependencies
         run: |
           pnpm install
