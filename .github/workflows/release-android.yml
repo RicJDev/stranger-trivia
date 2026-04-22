@@ -45,26 +45,24 @@ jobs:
         run: |
           echo "CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER=$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang" >> $GITHUB_ENV
 
-      - name: Clean target directory
-        run: rm -rf src-tauri/target
-
       - name: Install frontend dependencies
         run: |
           pnpm install
           pnpm add -D esbuild
 
+      - name: Build frontend
+        run: pnpm build
+
       - name: Initialize Android project
         run: pnpm tauri android init
 
-      - name: Build Tauri app
-        uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Android APK
+        run: |
+          cd src-tauri/gen/android
+          ./gradlew assembleRelease
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
-          args: '--target aarch64-linux-android'
-          includeAndroid: true
-          tagName: ${{ github.ref_name }}
-          releaseName: 'Stranger Trivia ${{ github.ref_name }}'
-          releaseBody: 'Juego de trivia con temática de Stranger Things'
-          draft: false
-          prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') }}
+          name: android-apk
+          path: src-tauri/gen/android/app/build/outputs/apk/release/*.apk
