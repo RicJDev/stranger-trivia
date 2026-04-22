@@ -36,6 +36,32 @@ import {
 const $bgMusic = document.getElementById('bg-music')
 $bgMusic.volume = 0.3
 
+function fadeOutMusic(duration = 1000) {
+  const startVolume = $bgMusic.volume
+  const startTime = performance.now()
+
+  function fade(currentTime) {
+    const elapsed = currentTime - startTime
+    const progress = Math.min(elapsed / duration, 1)
+    $bgMusic.volume = startVolume * (1 - progress)
+
+    if (progress < 1) {
+      requestAnimationFrame(fade)
+    } else {
+      $bgMusic.pause()
+      $bgMusic.volume = startVolume
+    }
+  }
+
+  requestAnimationFrame(fade)
+}
+
+document.addEventListener('click', () => {
+  if ($bgMusic.paused) {
+    $bgMusic.play()
+  }
+}, { once: true })
+
 const $startButton = document.querySelector('.start--btn')
 const $nextBtn = document.getElementById('next-btn')
 const $backBtn = document.getElementById('back-btn')
@@ -104,7 +130,7 @@ function startGame() {
   updateLevelName(getLevelName())
   updateScore(0)
 
-  $bgMusic.play()
+  fadeOutMusic()
   showQuizScreen()
   showCurrentQuestion()
 }
@@ -113,6 +139,7 @@ $startButton.addEventListener('click', startGame)
 $nextBtn.addEventListener('click', nextQuestion)
 $backBtn.addEventListener('click', () => {
   $bgMusic.pause()
+  $bgMusic.currentTime = 0
   showStartScreen()
 })
 $restartBtn.addEventListener('click', startGame)
