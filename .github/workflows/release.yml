@@ -40,12 +40,12 @@ jobs:
         run: pnpm build
 
       - name: Install Rust Stable
-        uses: dtolnay/rust-action@stable
+        uses: dtolnay/rust-toolchain@stable
         with:
           targets: x86_64-unknown-linux-gnu, aarch64-linux-android
 
       - name: Install Android SDK
-        uses: android-actions/setup-android@v2
+        uses: android-actions/setup-android@v3
 
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
