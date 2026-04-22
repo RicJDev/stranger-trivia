@@ -5,17 +5,13 @@ import {
   getState,
   setState,
   incrementScore,
-  nextQuestionIndex,
   nextLevel,
   resetGame,
-  getCurrentLevelKey,
   getLevelName,
 } from './game/state.js'
 import {
-  getAllQuestions,
   getCurrentQuestion,
   getTotalQuestions,
-  getLevelMessage,
   getQuestionCountAtLevel,
 } from './game/questions.js'
 import { levels } from './game/levels.js'
@@ -83,12 +79,10 @@ function nextQuestion() {
 
   if (state.currentQuestionIndex === easyCount) {
     nextLevel()
-    const newState2 = getState()
     updateLevelName(getLevelName())
     showModal('Nivel Medio', levels.medium.message, showCurrentQuestion)
   } else if (state.currentQuestionIndex === easyCount + mediumCount) {
     nextLevel()
-    const newState3 = getState()
     updateLevelName(getLevelName())
     showModal('Nivel Dificil', levels.hard.message, showCurrentQuestion)
   } else {
@@ -107,7 +101,6 @@ function showResults() {
 
 function startGame() {
   resetGame()
-  const state = getState()
   updateLevelName(getLevelName())
   updateScore(0)
 
@@ -125,4 +118,3 @@ $backBtn.addEventListener('click', () => {
 $restartBtn.addEventListener('click', startGame)
 
 onOptionSelect(handleAnswer)
-
