@@ -21,8 +21,7 @@ jobs:
             args: '--target x86_64-pc-windows-msvc'
             target: 'x86_64-pc-windows-msvc'
           - platform: 'ubuntu-22.04'
-            args: '--target aarch64-linux-android'
-            target: 'aarch64-linux-android'
+            target: 'android'
             is_android: true
 
     runs-on: ${{ matrix.platform }}
@@ -51,10 +50,9 @@ jobs:
       - name: Install Rust Stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.target }}
+          targets: ${{ matrix.is_android && 'aarch64-linux-android' || matrix.target }}
 
       - name: Rust Cache
-        if: matrix.target != 'aarch64-linux-android'
         uses: swatinem/rust-cache@v2
         with:
           workspaces: './src-tauri -> target'
@@ -69,18 +67,6 @@ jobs:
       - name: Setup Android SDK
         if: matrix.is_android
         uses: android-actions/setup-android@v3
-        with:
-          api-level: 34
-          ndk-version: r26
-
-      - name: Configure Android NDK linker
-        if: matrix.is_android
-        run: |
-          echo "CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER=$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang" >> $GITHUB_ENV
-
-      - name: Clean target directory
-        if: matrix.is_android
-        run: rm -rf src-tauri/target/aarch64-linux-android
 
       - name: Install frontend dependencies
         run: |
@@ -92,7 +78,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: ${{ matrix.args }}
+          args: ${{ matrix.is_android && '-- --apk' || matrix.args }}
+          includeAndroid: ${{ matrix.is_android }}
           tagName: ${{ github.ref_name }}
           releaseName: 'Stranger Trivia ${{ github.ref_name }}'
           releaseBody: 'Juego de trivia con temática de Stranger Things'
