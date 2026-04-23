@@ -39,33 +39,67 @@ src/
 - Vanilla JavaScript (ES Modules)
 - Vite
 - CSS (sin framework)
-- Tauri (para ejecutables nativos)
+- Capacitor (Android)
+- Electron (Windows)
 
-## Ejecutables (Tauri)
+---
 
-El proyecto incluye Tauri para generar ejecutables nativos para diferentes plataformas:
+## Builds Nativos
+
+El proyecto soporta dos plataformas nativas: Android (APK) y Windows (EXE).
+
+### Requisitos
+
+| Plataforma | Requisito |
+|-----------|-----------|
+| Android   | Android SDK |
+| Windows   | Node.js 20+ |
+
+### Local
 
 ```bash
-npm run tauri dev      # Ejecutar en modo desarrollo
-npm run tauri build    # Compilar para producción
+# 1. Generar web assets
+npm run build
+
+# 2. Android APK
+npx cap add android    # (si no existe la carpeta android)
+cd android && ./gradlew assembleDebug
+# Output: android/app/build/outputs/apk/debug/app-debug.apk
+
+# 3. Windows EXE
+cd electron && npm install   # (solo primera vez)
+cd electron && npm run make
+# Output: electron/release/
 ```
 
-### Plataformas soportadas
+### GitHub Actions
 
-- **Linux**: AppImage (.AppImage)
-- **Windows**: Ejecutable (.exe)
-- **Android**: APK (.apk)
+Las builds se generan automáticamente sin necesidad de entorno local.
 
-### GitHub Releases
+```bash
+# Ambos a la vez
+gh workflow run release.yml
 
-Las releases se generan automáticamente mediante GitHub Actions. Para crear una nueva release:
+# O individualmente
+gh workflow run android.yml
+gh workflow run windows.yml
+```
 
-1. Crea un tag de versión:
-   ```bash
-   git tag v1.0.0
-   git push origin v1.0.0
-   ```
+Esto genera:
+- **Android**: `app-debug.apk`
+- **Windows**: `Setup.exe` (en `electron/release/`)
 
-2. La action compilara automaticamente para las 3 plataformas y generara los artefactos.
+---
 
-3. Se subiran automaticamente a la release de GitHub.
+## Estructura de carpetas adicionales
+
+```
+electron/           # Electron wrapper para Windows
+├── main.js        # Entry point
+├── preload.js    # Bridge rendererプロセス
+├── package.json # Dependencias
+└── assets/    # Iconos
+
+android/          # Android native (Capacitor)
+└── app/build/outputs/apk/debug/app-debug.apk
+```
