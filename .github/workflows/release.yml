@@ -1,15 +1,6 @@
 name: Build All Releases
 
 on:
-  workflow_dispatch:
-
-permissions:
-  contents: write
-  id-token: write
-
-name: Build All Releases
-
-on:
   push:
     tags:
       - 'v*'
