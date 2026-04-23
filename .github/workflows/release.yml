@@ -7,6 +7,18 @@ permissions:
   contents: write
   id-token: write
 
+name: Build All Releases
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
 jobs:
   android:
     uses: ./.github/workflows/android.yml
@@ -28,10 +40,16 @@ jobs:
         with:
           name: windows-exe
 
-      - name: Display files
-        run: |
-          echo "=== Android APK ==="
-          ls -la *.apk 2>/dev/null || echo "No APK found"
-          echo ""
-          echo "=== Windows EXE ==="
-          ls -la *.exe 2>/dev/null || ls -la release/
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          files: |
+            *.apk
+            *.exe
+            release/*.exe    # Ajusta la ruta según cómo se empaquete el EXE de Windows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
