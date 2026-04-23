@@ -5,10 +5,10 @@ on:
     outputs:
       artifact-name:
         value: ${{ jobs.build.outputs.artifact-name }}
-        description: 'name of the artifact'
+        description: "name of the artifact"
       artifact-path:
         value: ${{ jobs.build.outputs.artifact-path }}
-        description: 'path to the artifact'
+        description: "path to the artifact"
 
 permissions:
   contents: read
@@ -30,17 +30,16 @@ jobs:
 
       - name: Install pnpm
         run: npm install -g pnpm@latest
-        shell: bash
 
-      - name: Install dependencies
+      - name: Install root dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Install Electron dependencies
-        working-directory: ./electron
-        run: pnpm install
 
       - name: Build web assets
         run: pnpm build
+
+      - name: Install electron dependencies
+        working-directory: ./electron
+        run: pnpm install
 
       - name: Build Windows EXE
         working-directory: ./electron
