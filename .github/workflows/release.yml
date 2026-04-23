@@ -1,0 +1,37 @@
+name: Build All Releases
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  android:
+    uses: ./.github/workflows/android.yml
+
+  windows:
+    uses: ./.github/workflows/windows.yml
+
+  release:
+    needs: [android, windows]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Android APK
+        uses: actions/download-artifact@v4
+        with:
+          name: android-apk
+
+      - name: Download Windows EXE
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-exe
+
+      - name: Display files
+        run: |
+          echo "=== Android APK ==="
+          ls -la *.apk 2>/dev/null || echo "No APK found"
+          echo ""
+          echo "=== Windows EXE ==="
+          ls -la *.exe 2>/dev/null || ls -la release/

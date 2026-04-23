@@ -1,0 +1,39 @@
+{
+  "name": "stranger-trivia",
+  "version": "1.0.0",
+  "description": "Stranger Things trivia game",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win --dir",
+    "make": "electron-builder --win"
+  },
+  "devDependencies": {
+    "electron": "^26.2.2",
+    "electron-builder": "~23.6.0"
+  },
+  "build": {
+    "appId": "com.stranger.trivia",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "main.js",
+      "preload.js"
+    ],
+    "extraResources": [
+      {
+        "from": "../dist",
+        "to": "dist"
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/appIcon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
