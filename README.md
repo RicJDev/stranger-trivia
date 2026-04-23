@@ -6,6 +6,7 @@ Un juego de trivia con temática de Stranger Things desarrollado con vanilla Jav
 
 1. Clonar el repositorio.
 2. Instalar las dependencias usando pnpm:
+
 ```bash
 pnpm install
 ```
@@ -58,10 +59,10 @@ El proyecto soporta dos plataformas nativas: Android (APK) y Windows (EXE).
 
 ### Requisitos
 
-| Plataforma | Requisito |
-|-----------|-----------|
-| Android   | Android SDK |
-| Windows   | Node.js 20+ |
+| Plataforma | Requisito   |
+| ---------- | ----------- |
+| Android    | Android SDK |
+| Windows    | Node.js 20+ |
 
 ### Local
 
@@ -94,6 +95,7 @@ gh workflow run windows.yml
 ```
 
 Esto genera:
+
 - **Android**: `app-debug.apk`
 - **Windows**: `Setup.exe` (en `electron/release/`)
 
@@ -113,4 +115,4 @@ android/            # Android native (Capacitor)
 ```
 
 > [!TIP]
-> Si el código no compila, podrías estar atrapado en el *Upside Down*. Revisa que tu versión de Node sea la correcta.
+> Si el código no compila, podrías estar atrapado en el _Upside Down_. Revisa que tu versión de Node sea la correcta.

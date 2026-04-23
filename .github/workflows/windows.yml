@@ -5,10 +5,10 @@ on:
     outputs:
       artifact-name:
         value: ${{ jobs.build.outputs.artifact-name }}
-        description: "name of the artifact"
+        description: 'name of the artifact'
       artifact-path:
         value: ${{ jobs.build.outputs.artifact-path }}
-        description: "path to the artifact"
+        description: 'path to the artifact'
 
 permissions:
   contents: read
