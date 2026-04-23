@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   build: {
@@ -6,8 +6,8 @@ export default defineConfig({
     rolldownOptions: {
       output: {
         entryFileNames: 'assets/[name].js',
-        assetFileNames: 'assets/[name].[ext]'
-      }
-    }
+        assetFileNames: 'assets/[name].[ext]',
+      },
+    },
   },
-});
+})

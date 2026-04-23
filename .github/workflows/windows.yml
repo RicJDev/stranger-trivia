@@ -33,7 +33,11 @@ jobs:
         shell: bash
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Electron dependencies
+        working-directory: ./electron
+        run: pnpm install
 
       - name: Build web assets
         run: pnpm build
