@@ -1,0 +1,51 @@
+name: Build Windows EXE
+
+on:
+  workflow_call:
+    outputs:
+      artifact-name:
+        value: ${{ jobs.build.outputs.artifact-name }}
+        description: "name of the artifact"
+      artifact-path:
+        value: ${{ jobs.build.outputs.artifact-path }}
+        description: "path to the artifact"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    outputs:
+      artifact-name: ${{ steps.upload.outputs.artifact-name }}
+      artifact-path: ${{ steps.upload.outputs.artifact-path }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install root dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build web assets
+        run: pnpm build
+
+      - name: Install electron dependencies
+        working-directory: ./electron
+        run: pnpm install
+
+      - name: Build Windows EXE
+        working-directory: ./electron
+        run: pnpm run make
+
+      - name: Upload EXE
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-exe
+          path: electron/release
+          retention-days: 5
