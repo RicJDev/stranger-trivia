@@ -30,16 +30,13 @@ jobs:
 
       - name: Install pnpm
         run: npm install -g pnpm@latest
+        shell: bash
 
-      - name: Install root dependencies
+      - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Build web assets
         run: pnpm build
-
-      - name: Install electron dependencies
-        working-directory: ./electron
-        run: pnpm install
 
       - name: Build Windows EXE
         working-directory: ./electron

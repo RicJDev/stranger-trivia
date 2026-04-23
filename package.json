@@ -19,7 +19,9 @@
   "dependencies": {
     "@capacitor-community/electron": "5.0.1",
     "@capacitor/android": "^8.3.1",
-    "@capacitor/core": "^8.3.1"
+    "@capacitor/core": "^8.3.1",
+    "electron": "^26.2.2",
+    "electron-builder": "~23.6.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

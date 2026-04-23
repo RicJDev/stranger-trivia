@@ -24,10 +24,12 @@ dist-ssr
 *.sw?
 
 # Mobile builds
+android/
 android/app/build
 android/.gradle
 
 # Electron builds
+electron/
 electron/release
 electron/dist
 electron/node_modules
