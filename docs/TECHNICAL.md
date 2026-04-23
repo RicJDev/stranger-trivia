@@ -4,27 +4,28 @@
 
 ```
 stranger-trivia/
-├── src-tauri/            # Configuración de Tauri
-│   ├── tauri.conf.json  # Config principal
-│   ├── Cargo.toml      # Dependencias Rust
-│   └── src/            # Código Rust (main.rs, lib.rs)
 ├── src/
-│   ├── main.js              # Entry point
-│   ├── reset.css           # Reset CSS
-│   ├── style.css         # Estilos principales
-│   ├── utility.css      # Clases utilitarias
-│   ├── assets/          # Recursos (imágenes, audio)
-│   ├── game/           # Lógica del juego
-│   │   ├── state.js     # Estado del juego
-│   │   ├── questions.js # Gestión de preguntas
-│   │   └── levels.js   # Niveles y preguntas
-│   └── ui/             # Interfaz de usuario
-│       ├── screens.js  # Cambio de pantallas
-│       ├── header.js  # Encabezado (nivel, puntuación)
-│       ├── modal.js   # Modal de niveles
+│   ├── main.js                # Entry point
+│   ├── reset.css              # Reset CSS
+│   ├── style.css              # Estilos principales
+│   ├── utility.css            # Clases utilitarias
+│   ├── assets/                # Recursos (imágenes, audio)
+│   ├── game/                  # Lógica del juego
+│   │   ├── state.js           # Estado del juego
+│   │   ├── questions.js       # Gestión de preguntas
+│   │   └── levels.js          # Niveles y preguntas
+│   └── ui/                    # Interfaz de usuario
+│       ├── screens.js         # Cambio de pantallas
+│       ├── header.js          # Encabezado (nivel, puntuación)
+│       ├── modal.js           # Modal de niveles
 │       └── questionDisplay.js # Pregunta y feedback
+├── electron/                  # Build para Windows (Electron puro)
+│   ├── main.js                # Entry point de Electron
+│   ├── preload.js             # Preload script
+│   └── package.json           # Dependencias de Electron
 ├── index.html
-└── package.json
+├── package.json
+└── vite.config.js
 ```
 
 ## Flujo del Juego
@@ -110,40 +111,46 @@ Responsive: `@media (max-width: 600px)`
 
 **Solución**: Media query con fuentes reducidas.
 
-## Tauri
+## Android (Capacitor)
 
-### Configuración Principal (tauri.conf.json)
+### Flujo de Build
 
-```json
-{
-  "productName": "stranger-trivia",
-  "version": "0.1.0",
-  "identifier": "com.strangertrivia.app",
-  "build": {
-    "frontendDist": "../dist",
-    "devUrl": "http://localhost:5173/",
-    "beforeDevCommand": "pnpm dev",
-    "beforeBuildCommand": "pnpm build"
-  }
-}
+El build de Android se genera automáticamente en GitHub Actions:
+
+1. `npx cap add android` - Agrega plataforma (genera carpeta android/)
+2. `npx cap sync android` - Sincroniza web assets
+3. `./gradlew assembleDebug` - Compila APK
+
+### GitHub Actions (android.yml)
+
+Workflow que se ejecuta al hacer push de un tag `v*`:
+
+- Compila para Android
+- Sube el APK a la release de GitHub
+
+## Electron (Windows)
+
+### Estructura
+
+```
+electron/
+├── main.js       # Entry point de Electron
+├── preload.js    # Preload script
+├── package.json  # Dependencias (electron, electron-builder)
+└── assets/       # Iconos y recursos
 ```
 
-- `frontendDist`: Directorio del build de Vite
-- `beforeDevCommand`: Comando para iniciar el dev server
-- `beforeBuildCommand`: Comando para build de producción
+### Build
 
-### GitHub Actions (release.yml)
+```bash
+cd electron
+pnpm run make  # Genera .exe en electron/release
+```
 
-Workflow para compilar automaticamente para Linux, Windows y Android:
+## GitHub Actions (release.yml)
+
+Workflow para compilar automáticamente para Android y Windows:
 
 - Se ejecuta al hacer push de un tag `v*`
-- Compila para las 3 plataformas en paralelo
+- Compila para las 2 plataformas en paralelo
 - Sube los artefactos a la release de GitHub
-
-### Cargo.toml
-
-Dependencias principales:
-
-- `tauri`: Framework principal (v2.10.3)
-- `tauri-plugin-log`: Sistema de logging
-- `serde`/`serde_json`: Serialización
